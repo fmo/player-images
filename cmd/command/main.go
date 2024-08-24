@@ -27,11 +27,11 @@ var Cmd = &cobra.Command{
 	Use:   "player-images",
 	Short: "Get player images from Transfermarkt",
 	Run: func(cmd *cobra.Command, args []string) {
-		logger.Info("starting player command")
+		logger.Info("Starting player command")
 
 		s3Service, err := s3.NewS3Service(logger)
 		if err != nil {
-			logger.Fatalf("cant connect to s3 %v", err)
+			logger.Fatalf("Cant connect to s3 %v", err)
 		}
 
 		redisClient := redis.NewRedisClient()
@@ -47,9 +47,9 @@ var Cmd = &cobra.Command{
 					logger.Error(err)
 				} else {
 					if imageAlreadyUploaded {
-						imageInfo = "image already before uploaded"
+						imageInfo = "Image already before uploaded"
 					} else {
-						imageInfo = "image uploaded"
+						imageInfo = "Image uploaded"
 					}
 				}
 			}
@@ -58,7 +58,7 @@ var Cmd = &cobra.Command{
 				"player image": imageInfo,
 				"player id":    player.ID,
 				"player name":  player.Name,
-			}).Infof("image update process")
+			}).Infof("Image update process")
 		}
 
 	},

@@ -40,7 +40,7 @@ func (p PlayersApi) GetPlayers(season, teamId int) []Player {
 	cacheKey := fmt.Sprintf("team:%d:season:%d", teamId, season)
 	cachedPlayers, err := p.redisClient.Get(context.Background(), cacheKey).Result()
 	if errors.Is(err, redis.Nil) {
-		p.logger.Info("cache miss, fetching from API")
+		p.logger.Info("Cache miss, fetching from API")
 		response := request(
 			fmt.Sprintf(
 				"https://transfermarkt-db.p.rapidapi.com/v1/clubs/squad?season_id=%d&locale=UK&club_id=%d",
@@ -50,26 +50,26 @@ func (p PlayersApi) GetPlayers(season, teamId int) []Player {
 		)
 		var playerResponse Data
 		if err := json.Unmarshal(response, &playerResponse); err != nil {
-			log.Fatalf("error unmarshalling json: %v\n", err)
+			log.Fatalf("Error unmarshalling json: %v\n", err)
 		}
 
 		p.logTheResponse(playerResponse)
 
 		playersJson, err := json.Marshal(playerResponse.Players)
 		if err != nil {
-			log.Fatalf("error marshalling json: %v\n", err)
+			log.Fatalf("Error marshalling json: %v\n", err)
 		}
 		p.redisClient.Set(context.Background(), cacheKey, playersJson, 24*30*time.Hour)
 
 		return playerResponse.Players
 	} else if err != nil {
-		log.Fatalf("error getting from redis: %v\n", err)
+		log.Fatalf("Error getting from redis: %v\n", err)
 	}
 
-	p.logger.Info("cache hit, returning cached data")
+	p.logger.Info("Cache hit, returning cached data")
 	var players []Player
 	if err := json.Unmarshal([]byte(cachedPlayers), &players); err != nil {
-		log.Fatalf("error unmarshalling cached json: %v\n", err)
+		log.Fatalf("Error unmarshalling cached json: %v\n", err)
 	}
 
 	return players
@@ -86,7 +86,7 @@ func (p PlayersApi) logTheResponse(playerResponse Data) {
 
 	p.logger.WithFields(logrus.Fields{
 		"firstThreeNames": playerNames,
-	}).Info("rapid api response summary with player names")
+	}).Info("Rapid api response summary with player names")
 }
 
 func request(url string) []byte {
