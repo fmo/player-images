@@ -11,3 +11,15 @@ func GetS3Bucket() string {
 func GetAwsRegion() string {
 	return os.Getenv("AWS_REGION")
 }
+
+func GetRedisAddr() string {
+	return os.Getenv("REDIS_ADDR")
+}
+
+func GetRedisPassword() string {
+	return os.Getenv("REDIS_PASSWORD")
+}
+
+func GetRapidApiKey() string {
+	return os.Getenv("RAPID_API_KEY")
+}

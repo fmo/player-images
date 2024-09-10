@@ -15,3 +15,4 @@
 | Turkiye         |     |
 | Germany         |     |
 | England         |     |
+| Manu            | 985 |
