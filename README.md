@@ -1,3 +1,7 @@
+## Whats it's about
+
+<p>Uploads players images from transfermarkt to aws s3</p>
+
 ## To get the player images
 
 ```
